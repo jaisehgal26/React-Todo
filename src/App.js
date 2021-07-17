@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "./components/Form";
 import Filter from "./components/Filter";
 import Todo from "./components/Todo";
-
+let id = 4;
 const FILTER_MAP = {
   All: () => true,
   Active: (task) => !task.completed,
@@ -14,11 +14,10 @@ function App(props) {
   const [tasks, setTask] = useState(props.tasks);
   const [filter, setFilter] = useState("All");
 
-  const taskDataHandler = (enteredTaskData) => {
-    setTask((prevTasks) => {
-      return [enteredTaskData, ...prevTasks];
-    });
-  };
+  function addTask(name) {
+    const newTask = { id: `t${++id}`, task: name, completed: false };
+    setTask([newTask, ...tasks]);
+  }
 
   function editTask(id, newName) {
     const editedTaskList = tasks.map((task) => {
@@ -53,30 +52,35 @@ function App(props) {
       setFilter={setFilter}
     />
   ));
-
+  const tasksNoun = tasks.length !== 1 ? "tasks" : "task";
+  const taskList = tasks
+    .filter(FILTER_MAP[filter])
+    .map((task) => (
+      <Todo
+        id={task.id}
+        task={task.task}
+        completed={task.completed}
+        key={task.id}
+        toggleTaskCompleted={toggleTaskCompleted}
+        deleteTask={deleteTask}
+        editTask={editTask}
+      />
+    ));
   return (
     <div className="container app">
-      <Form onSaveTaskData={taskDataHandler}></Form>
+      <Form onSaveTaskData={addTask}></Form>
       <div className="container">
         <div className="container">
-          <div className="row mt-2 ">{filterList}</div>
+          <div className="row mt-2 d-flex justify-content-around">
+            {filterList}
+          </div>
         </div>
       </div>
 
-      <h2 className="mt-2">{tasks.length} tasks remaining</h2>
-      <ul className="list-unstyled">
-        {tasks.filter(FILTER_MAP[filter]).map((task) => (
-          <Todo
-            key={task.id}
-            id={task.id}
-            task={task.task}
-            completed={task.completed}
-            toggleTaskCompleted={toggleTaskCompleted}
-            deleteTask={deleteTask}
-            editTask={editTask}
-          />
-        ))}
-      </ul>
+      <h2 className="mt-2">
+        {taskList.length} {tasksNoun} remaining
+      </h2>
+      <ul className="list-unstyled">{taskList}</ul>
     </div>
   );
 }

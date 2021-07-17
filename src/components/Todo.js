@@ -24,6 +24,7 @@ function Todo(props) {
             className="form-control"
             type="text"
             onChange={handleChange}
+            autoComplete="off"
           />
         </div>
         <div className="row d-flex justify-content-around mt-3">
@@ -49,9 +50,10 @@ function Todo(props) {
           type="checkbox"
           id="todo-0"
           defaultChecked={props.completed}
+          autoComplete="off"
           onChange={() => props.toggleTaskCompleted(props.id)}
         />
-        <label className="col-1 align-middle vert" htmlFor="todo-0">
+        <label className="col align-middle vert" htmlFor="todo-0">
           {props.task}
         </label>
       </div>

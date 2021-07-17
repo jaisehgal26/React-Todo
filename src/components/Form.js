@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-let id = 4;
 function Form(props) {
   const [enteredTask, setEnteredTask] = useState("");
   const taskHandler = (event) => {
@@ -8,11 +6,7 @@ function Form(props) {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    const task = {
-      id: `t${++id}`,
-      task: enteredTask,
-    };
-    props.onSaveTaskData(task);
+    props.onSaveTaskData(enteredTask);
     setEnteredTask("");
   };
   return (
