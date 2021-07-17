@@ -48,12 +48,12 @@ function Todo(props) {
         <input
           className="form-control col-2"
           type="checkbox"
-          id="todo-0"
+          id={props.id}
           defaultChecked={props.completed}
           autoComplete="off"
           onChange={() => props.toggleTaskCompleted(props.id)}
         />
-        <label className="col align-middle vert" htmlFor="todo-0">
+        <label className="col align-middle vert" htmlFor={props.id}>
           {props.task}
         </label>
       </div>
